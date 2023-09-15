@@ -1,0 +1,16 @@
+@api = http://localhost:3000/prestamos
+
+GET {{api}}
+
+###
+POST {{api}}
+
+Content-Type: application/json
+
+{
+    "FCHA_EMISION": "2023-09-15",
+    "VENCE": "2023-10-15",
+    "ID_LIBRO": "0075",
+    "ID_LECTOR": "4",
+    "DEVOLUCION": true
+}
