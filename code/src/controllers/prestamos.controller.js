@@ -8,9 +8,11 @@ export const get_prestamos = async (req, res) => {
 
 export const post_prestamos = async (req, res) => {
     
+    const {fecha_emi, vence, id_libro, id_lector, devolucion } = req.body
+    console.log(fecha_emi, vence, id_libro, id_lector, devolucion)
     res.json('POST prestamos')
 
-    const pool = await getConnection()
+    /*const pool = await getConnection()
     await pool.request().input('fecha_emi', sql.date, 'req.body.id_libro')
     /*const { id_libro, id_usuario, fecha_prestamo, fecha_devolucion } = req.body
     const pool = await getConnection()
