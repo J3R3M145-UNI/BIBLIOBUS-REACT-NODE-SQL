@@ -4,9 +4,12 @@ import prestamosRoutes from './routes/prestamos.routes';
 const app = express();
 
 //CONFIGURACIONES
-app.set('port',config.port);
+app.set('port', config.port)
 
 //MIDDLEWARES
-app.use(express.json());
+app.use(express.json())
 app.use(express.urlencoded({extended:false}));
+
+app.use(prestamosRoutes)
+
 export default app;

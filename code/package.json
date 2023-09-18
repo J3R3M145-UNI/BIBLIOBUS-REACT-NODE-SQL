@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node"
+    "dev": "nodemon src/index.js --exec babel-node "
   },
   "dependencies": {
     "cors": "^2.8.5",
