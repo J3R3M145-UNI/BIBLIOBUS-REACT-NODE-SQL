@@ -15,6 +15,6 @@ app.use(express.urlencoded({extended:false}))
 
 //ROUTES
 app.use(prestamosRoutes)
-app.use(auth)
+app.use("/api",auth)
 
 export default app;
