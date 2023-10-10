@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import config from './config';
 import prestamosRoutes from './routes/prestamos.routes';
+import cookieParser from 'cookie-parser'
 import auth from './routes/auth.routes';
 const app = express();
 
@@ -12,6 +13,7 @@ app.set('port', config.port)
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
+app.use(cookieParser())
 
 //ROUTES
 app.use("/api", prestamosRoutes)

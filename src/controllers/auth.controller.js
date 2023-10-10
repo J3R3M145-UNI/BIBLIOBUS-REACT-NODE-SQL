@@ -80,3 +80,15 @@ export const login = async (req, res) => {
         res.send(error.message)
     }
 }
+
+export const logout = async (req, res) => {
+    res.cookie('token', '', {
+        expires: new Date(0)
+    })
+    res.status(200).json();
+}
+
+export const profile = async (req, res) => {
+    console.log(req.user)
+    res.send("Profile")
+}
