@@ -9,5 +9,5 @@ export const queries = {
     //CREAR USUARIO
     regUsuario: 'INSERT INTO USUARIOS (username, email, password, nombre, apellido, tipo_usuario) VALUES (@username, @email, @password, @nombre, @apellido, @tipo_usuario)',
     //LOGIN
-    login: 'SELECT * FROM USUARIOS WHERE username = @username AND email = @email',
+    login: 'SELECT * FROM USUARIOS WHERE username = @username',
 }

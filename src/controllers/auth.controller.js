@@ -1,4 +1,4 @@
-import { getConnection, sql, queries } from '../database';
+import { getConnection, queries, sql } from '../database';
 import bcrypt from 'bcryptjs';
 import { createAccessToken } from '../libs/jwt.js';
 
@@ -46,20 +46,21 @@ export const register = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-    const { username, email, password, tipo_usuario } = req.body
+    
+    const { username, password } = req.body
 
     try {
 
+        const pool = await getConnection() //Se conecta a la base de datos
         const userfound = await pool.request(). //Se hace la consulta
 
             input('username', sql.VarChar, username).
-            input('email', sql.VarChar, email).
 
-            query(queries.login) //ºSe ejecuta la consulta
+            query(queries.login) //Se ejecuta la consulta
 
-        if (!userfound) return res.status(400).json({ message: "Usuario no encontrado" })
-
-        const matchPassword = await bcrypt.compare(password, userfound.password)
+        if (!userfound.recordset[0]) return res.status(400).json({ message: "Usuario no encontrado" }) //Si no encuentra el usuario
+        
+        const matchPassword =  await bcrypt.compare(password, userfound.recordset[0].password);
 
         if (!matchPassword) return res.status(401).json({ message: "Contraseña incorrecta" })
 
@@ -69,8 +70,9 @@ export const login = async (req, res) => {
         res.cookie('token', token) 
         res.json({
             message: "Bienvenido",
-            userfound
+            userfound: userfound.recordset[0]
         })
+
 
 
     } catch (error) {
