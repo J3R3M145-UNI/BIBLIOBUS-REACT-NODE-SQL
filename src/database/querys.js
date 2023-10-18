@@ -10,4 +10,6 @@ export const queries = {
     regUsuario: 'INSERT INTO USUARIOS (username, email, password, nombre, apellido, tipo_usuario) VALUES (@username, @email, @password, @nombre, @apellido, @tipo_usuario)',
     //LOGIN
     login: 'SELECT * FROM USUARIOS WHERE username = @username',
+    //mostrarperfil
+    profile: 'SELECT * FROM USUARIOS WHERE username = @username',
 }
