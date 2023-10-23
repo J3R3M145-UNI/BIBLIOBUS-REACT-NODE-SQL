@@ -1,7 +1,7 @@
 import { getConnection, sql, queries } from '../database';
 
 
-export const get_prestamos = async (req, res) => {
+export const get_task = async (req, res) => {
 
     try {
         const pool = await getConnection()
@@ -13,7 +13,7 @@ export const get_prestamos = async (req, res) => {
     }
 }
 
-export const post_prestamos = async (req, res) => {
+export const post_task = async (req, res) => {
 
     const { FCHA_EMISION, VENCE, ID_LIBRO, ID_LECTOR, DEVOLUCION } = req.body
 
