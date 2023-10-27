@@ -21,4 +21,4 @@ export async function getConnection() {
     }
 }
 
-export {sql}
+export { sql }
