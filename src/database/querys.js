@@ -20,6 +20,11 @@ export const queries = {
         return `SELECT * FROM [${tableName2}]`;
     },
 
+    getItemsFromTableByID: (tableName) => {
+        var tableName2 = tableName.toUpperCase();
+        return `SELECT * FROM [${tableName2}] WHERE ID_${tableName2} = @id`;
+    },
+
     //post-querys
     postItem: (tableName, data) => {
         var tableName2 = tableName.toUpperCase();
@@ -28,4 +33,19 @@ export const queries = {
 
         return `INSERT INTO [${tableName2}] (${columns.join(', ')}) VALUES (${values.map(val => val).join(', ')})`;
     },
+
+    //delete-querys
+    deleteItem: (tableName) => {
+        var tableName2 = tableName.toUpperCase();
+        return `DELETE FROM [${tableName2}] WHERE ID_${tableName2} = @id`;
+    }, 
+
+    //update-querys
+    updateItemByID: (tableName, data) => {
+        var tableName2 = tableName.toUpperCase();
+        const columns = Object.keys(data).map(col => `[${col}] = ${col}`);
+        const values = Object.values(data);
+
+        return `UPDATE [${tableName2}] SET ${columns.join(', ')} WHERE ID_${tableName2} = @ID_${tableName2}`;
+    }
 };

@@ -67,7 +67,7 @@ export const insertItemIntoTable = async (req, res) => {
         const query = queries.postItem(tableName, data);
 
         const request = pool.request();
-        
+
         // Asignar valores a los parámetros
         Object.keys(data).forEach(col => {
             request.input(col, data[col]);
@@ -88,7 +88,7 @@ export const getItemsFromTableByID = async (req, res) => {
 
     try {
         const pool = await getConnection()
-        const query = queries[`get${tableName}ItemsByID`];
+        const query = queries.getItemsFromTableByID(tableName);
         const result = await pool.request()
             .input('id', id)
             .query(query)
@@ -105,10 +105,10 @@ export const deleteItem = async (req, res) => {
 
     try {
         const pool = await getConnection()
-        const query = queries[`delete${tableName}Item`];
+        const query = queries.deleteItem(tableName);
         const result = await pool.request()
             .input('id', id)
-            .query(queries.deletePrestamo)
+            .query(query)
         res.sendStatus(204)
     } catch (error) {
         res.status(500)
@@ -116,22 +116,28 @@ export const deleteItem = async (req, res) => {
     }
 }
 
-export const update_prestamoByID = async (req, res) => {
+export const updateItemByID = async (req, res) => {
 
-    const { FCHA_EMISION, VENCE, ID_LIBRO, ID_LECTOR, DEVOLUCION } = req.body
-    const { id } = req.params
+    const tableName = req.params.tableName; // Asumiendo que el nombre de la tabla se pasa como un parámetro en la URL
+    const data = req.body;
 
     try {
         const pool = await getConnection()
-        await pool.request()
-            .input('ID_PRESTAMO', sql.Int, id)
-            .input('FCHA_EMISION', sql.Date, FCHA_EMISION)
-            .input('VENCE', sql.Date, VENCE)
-            .input('ID_LIBRO', sql.NVarChar, ID_LIBRO)
-            .input('ID_LECTOR', sql.NVarChar, ID_LECTOR)
-            .input('DEVOLUCION', sql.Bit, DEVOLUCION)
-            .query(queries.updatePrestamoByID)
+
+        // Obtener la consulta de inserción desde el archivo "querys.js"
+        const query = queries.updateItemByID(tableName, data);
+
+        const request = pool.request();
+
+        // Asignar valores a los parámetros
+        Object.keys(data).forEach(col => {
+            request.input(col, data[col]); // Asumiendo que los nombres de las columnas son iguales a los nombres de los parámetros
+        });
+
+        const result = await request.query(query);
+
         res.sendStatus(204)
+
     } catch (error) {
         res.status(500)
         res.send(error.message)

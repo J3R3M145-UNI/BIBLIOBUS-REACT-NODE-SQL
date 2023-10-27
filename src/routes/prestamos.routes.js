@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { post_task, getItemsFromTableByID, deleteItem, update_prestamoByID, getItemsFromTable, insertItemIntoTable } from '../controllers/task.controller';
+import { getItemsFromTableByID, deleteItem, getItemsFromTable, insertItemIntoTable, updateItemByID } from '../controllers/task.controller';
 import { authRequired } from '../middlewares/validateToken.js';
 
 const router = Router();
 router.get('/datos/:tableName', authRequired, getItemsFromTable);
 router.get('/datos/:tableName/:id', authRequired, getItemsFromTableByID);
 router.post('/datos/:tableName', authRequired, insertItemIntoTable);
-router.delete('/datos/prestamo/:id', deleteItem);
-router.put('/datos/prestamo/:id', update_prestamoByID);
+router.delete('/datos/:tableName/:id', authRequired, deleteItem);
+router.put('/datos/:tableName/:id', authRequired, updateItemByID);
 
 export default router;
