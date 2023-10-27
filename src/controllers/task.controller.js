@@ -19,7 +19,7 @@ export const getItemsFromTable = async (req, res) => {
         const pool = await getConnection();
 
         // Construir la consulta SQL dinámicamente
-        const query = queries[`get${tableName}Items`];
+        const query = queries.getItemsFromTable(tableName);
 
         const result = await pool.request().query(query);
 
@@ -31,7 +31,7 @@ export const getItemsFromTable = async (req, res) => {
 };
 
 
-export const post_task = async (req, res) => {
+/* export const post_task = async (req, res) => {
 
     const { FCHA_EMISION, VENCE, ID_LIBRO, ID_LECTOR, DEVOLUCION } = req.body
 
@@ -54,7 +54,7 @@ export const post_task = async (req, res) => {
         res.status(500)
         res.send(error.message)
     }
-}
+} */
 
 export const insertItemIntoTable = async (req, res) => {
     const tableName = req.params.tableName; // Asumiendo que el nombre de la tabla se pasa como un parámetro en la URL
@@ -63,9 +63,17 @@ export const insertItemIntoTable = async (req, res) => {
     try {
         const pool = await getConnection();
 
+        // Obtener la consulta de inserción desde el archivo "querys.js"
         const query = queries.postItem(tableName, data);
 
-        const result = await pool.request().query(query);
+        const request = pool.request();
+        
+        // Asignar valores a los parámetros
+        Object.keys(data).forEach(col => {
+            request.input(col, data[col]);
+        });
+
+        const result = await request.query(query);
 
         res.json({ message: 'Registro insertado correctamente' });
     } catch (error) {
@@ -74,15 +82,16 @@ export const insertItemIntoTable = async (req, res) => {
     }
 };
 
-export const get_prestamoByID = async (req, res) => {
-
+export const getItemsFromTableByID = async (req, res) => {
+    const tableName = req.params.tableName;
     const { id } = req.params
 
     try {
         const pool = await getConnection()
+        const query = queries[`get${tableName}ItemsByID`];
         const result = await pool.request()
             .input('id', id)
-            .query(queries.getPrestamoByID)
+            .query(query)
         res.send(result.recordset[0])
     } catch (error) {
         res.status(500)
@@ -90,12 +99,13 @@ export const get_prestamoByID = async (req, res) => {
     }
 }
 
-export const delete_task = async (req, res) => {
-
+export const deleteItem = async (req, res) => {
+    const tableName = req.params.tableName;
     const { id } = req.params
 
     try {
         const pool = await getConnection()
+        const query = queries[`delete${tableName}Item`];
         const result = await pool.request()
             .input('id', id)
             .query(queries.deletePrestamo)
