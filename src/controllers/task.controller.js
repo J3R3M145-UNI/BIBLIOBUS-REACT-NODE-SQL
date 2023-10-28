@@ -30,6 +30,22 @@ export const getItemsFromTable = async (req, res) => {
     }
 };
 
+export const getItemsFromTableByID = async (req, res) => {
+    const tableName = req.params.tableName;
+    const { id } = req.params
+
+    try {
+        const pool = await getConnection()
+        const query = queries.getItemsFromTableByID(tableName);
+        const result = await pool.request()
+            .input('id', id)
+            .query(query)
+        res.send(result.recordset[0])
+    } catch (error) {
+        res.status(500)
+        res.send(error.message)
+    }
+}
 
 /* export const post_task = async (req, res) => {
 
@@ -82,23 +98,6 @@ export const insertItemIntoTable = async (req, res) => {
     }
 };
 
-export const getItemsFromTableByID = async (req, res) => {
-    const tableName = req.params.tableName;
-    const { id } = req.params
-
-    try {
-        const pool = await getConnection()
-        const query = queries.getItemsFromTableByID(tableName);
-        const result = await pool.request()
-            .input('id', id)
-            .query(query)
-        res.send(result.recordset[0])
-    } catch (error) {
-        res.status(500)
-        res.send(error.message)
-    }
-}
-
 export const deleteItem = async (req, res) => {
     const tableName = req.params.tableName;
     const { id } = req.params
@@ -119,6 +118,7 @@ export const deleteItem = async (req, res) => {
 export const updateItemByID = async (req, res) => {
 
     const tableName = req.params.tableName; // Asumiendo que el nombre de la tabla se pasa como un parámetro en la URL
+    const { id } = req.params
     const data = req.body;
 
     try {
@@ -127,16 +127,11 @@ export const updateItemByID = async (req, res) => {
         // Obtener la consulta de inserción desde el archivo "querys.js"
         const query = queries.updateItemByID(tableName, data);
 
-        const request = pool.request();
+        const result = await pool.request()
+            .input('id', id)
+            .query(query)
 
-        // Asignar valores a los parámetros
-        Object.keys(data).forEach(col => {
-            request.input(col, data[col]); // Asumiendo que los nombres de las columnas son iguales a los nombres de los parámetros
-        });
-
-        const result = await request.query(query);
-
-        res.sendStatus(204)
+        res.json({ message: 'Registro actualizado correctamente' });
 
     } catch (error) {
         res.status(500)

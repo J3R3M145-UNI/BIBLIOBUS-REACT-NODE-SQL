@@ -1,8 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 import config from './config';
-import prestamosRoutes from './routes/prestamos.routes';
-import cookieParser from 'cookie-parser'
+import task from './routes/task.routes';
+import cookieParser from 'cookie-parser';
 import auth from './routes/auth.routes';
 const app = express();
 
@@ -16,7 +16,7 @@ app.use(express.urlencoded({extended:false}))
 app.use(cookieParser())
 
 //ROUTES
-app.use("/api", prestamosRoutes)
+app.use("/api", task)
 app.use("/api", auth)
 
 export default app;

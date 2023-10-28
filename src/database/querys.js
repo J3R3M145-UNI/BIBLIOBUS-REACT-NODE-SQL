@@ -43,9 +43,10 @@ export const queries = {
     //update-querys
     updateItemByID: (tableName, data) => {
         var tableName2 = tableName.toUpperCase();
-        const columns = Object.keys(data).map(col => `[${col}] = ${col}`);
         const values = Object.values(data);
+        const columns = Object.keys(data).map(col => `[${col}] = ${values[Object.keys(data).indexOf(`${col}`)]}`); // [col1] = val1, [col2] = val2, ...
+        
 
-        return `UPDATE [${tableName2}] SET ${columns.join(', ')} WHERE ID_${tableName2} = @ID_${tableName2}`;
+        return `UPDATE [${tableName2}] SET ${columns.join(', ')} WHERE ID_${tableName2} = @id`;
     }
 };
