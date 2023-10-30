@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node "
+    "dev": "nodemon src/index.js --exec babel-node ",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
