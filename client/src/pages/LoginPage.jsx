@@ -1,46 +1,33 @@
-import React, { Component } from 'react'
-export default class LoginPage extends Component {
-  render() {
-    return (
-      <form>
-        <h3>Sign In</h3>
-        <div className="mb-3">
-          <label>Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Enter email"
-          />
+import { useForm } from 'react-hook-form';
+
+function LoginPage() {
+  const { register, handleSubmit } = useForm();
+  return (
+    <div className="container-sm bg-primary-subtle p-5 mx-auto m-5 rounded">
+      <form
+        onSubmit={handleSubmit((values) => {
+          console.log(values)
+        })
+        }
+      >
+        <div className="col-md-5 mx-auto">
+          <h1>Log-In</h1>
         </div>
-        <div className="mb-3">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Enter password"
-          />
-        </div>
-        <div className="mb-3">
-          <div className="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              className="custom-control-input"
-              id="customCheck1"
-            />
-            <label className="custom-control-label" htmlFor="customCheck1">
-              Remember me
-            </label>
-          </div>
-        </div>
-        <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
-            Submit
+        <div className="vstack gap-2 col-md-5 mx-auto border p-2">
+          <input type="text" {...register("username", { required: true })}
+            className="form-control" placeholder='Username' />
+
+          <input type="password" {...register("password", { required: true })}
+            className="form-control" placeholder='Password' />
+
+          <button type='submit'
+            className='btn btn-primary'>
+            Entrar
           </button>
         </div>
-        <p className="forgot-password text-right">
-          Forgot <a href="#">password?</a>
-        </p>
       </form>
-    )
-  }
+    </div>
+  );
 }
+
+export default LoginPage
