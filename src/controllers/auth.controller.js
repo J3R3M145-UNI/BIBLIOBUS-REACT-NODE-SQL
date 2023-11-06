@@ -6,6 +6,15 @@ export const register = async (req, res) => {
     const { username, email, password, nombre, apellido, tipo_usuario } = req.body
 
     try {
+        const pool = await getConnection() //Se conecta a la base de datos
+        const userfound = await pool.request(). //Se hace la consulta
+
+            input('username', sql.VarChar, username).
+
+            query(queries.profile) //Se ejecuta la consulta
+
+        if (userfound.recordset[0]) return res.status(400).json(["El usuario ya existe"]) //Si encuentra el usuario
+
         //Encriptar contraseña
         const passwordHash = await bcrypt.hash(password, 10)
 
@@ -18,7 +27,7 @@ export const register = async (req, res) => {
             tipo_usuario
         }
 
-        const pool = await getConnection() //Se conecta a la base de datos
+        pool = await getConnection() //Se conecta a la base de datos
         await pool.request(). //Se hace la consulta
 
             input('username', sql.VarChar, username).
@@ -58,11 +67,11 @@ export const login = async (req, res) => {
 
             query(queries.login) //Se ejecuta la consulta
 
-        if (!userfound.recordset[0]) return res.status(400).json({ message: "Usuario no encontrado" }) //Si no encuentra el usuario
+        if (!userfound.recordset[0]) return res.status(400).json(["Usuario no encontrado"]) //Si no encuentra el usuario
 
         const matchPassword = await bcrypt.compare(password, userfound.recordset[0].password);
 
-        if (!matchPassword) return res.status(401).json({ message: "Contraseña incorrecta" })
+        if (!matchPassword) return res.status(401).json(["Contraseña incorrecta"])
 
         const token = await createAccessToken({ id: userfound.recordset[0].username })//Se crea el token
 
