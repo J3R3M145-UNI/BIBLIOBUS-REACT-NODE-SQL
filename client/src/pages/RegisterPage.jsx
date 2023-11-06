@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { UseAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 function RegisterPage() {
@@ -68,6 +68,9 @@ function RegisterPage() {
                     </button>
                 </div>
             </form>
+            <p className='text-center'>ya tienes cuenta?
+        <Link to='/login'>Login</Link>
+      </p>
         </div>
     );
 }

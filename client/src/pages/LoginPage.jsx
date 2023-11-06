@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { UseAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -43,6 +44,9 @@ function LoginPage() {
           </button>
         </div>
       </form>
+      <p className='text-center'>Aun no estas registrado?
+        <Link to='/register'>Sign up</Link>
+      </p>
     </div>
   );
 }
