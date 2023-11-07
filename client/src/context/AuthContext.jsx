@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { registerRequest, loginRequest } from '../../api/auth';
+import Cookies from 'js-cookie';
 
 export const AuthContext = createContext();
 
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => { // This is the component that wi
 
         try {
             const res = await registerRequest(user)
-            console.log(res.data)
+            //console.log(res.data)
             setUser(res.data)
             setIsAuthenticated(true)
         } catch (error) {
@@ -33,6 +34,7 @@ export const AuthProvider = ({ children }) => { // This is the component that wi
         try {
             const res = await loginRequest(user)
             setUser(res.data)
+            setIsAuthenticated(true)
         } catch (error) {
             if (Array.isArray(error.response.data)) {
                 return setErrors(error.response.data)
@@ -49,6 +51,13 @@ export const AuthProvider = ({ children }) => { // This is the component that wi
             return () => clearTimeout(timer)
         }
     }, [errors])
+
+    useEffect(() => {
+        const cookie = Cookies.get()
+        if (cookie) {
+            console.log(cookie)
+        }
+    }, [])
 
     return (
         <AuthContext.Provider value={{ // This is the value that will be passed to the components that use this context

@@ -57,6 +57,9 @@ importers:
       bootstrap:
         specifier: ^5.3.2
         version: 5.3.2(@popperjs/core@2.11.8)
+      js-cookie:
+        specifier: ^3.0.5
+        version: 3.0.5
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -3511,6 +3514,11 @@ packages:
       reflect.getprototypeof: 1.0.4
       set-function-name: 2.0.1
     dev: true
+
+  /js-cookie@3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
+    dev: false
 
   /js-md4@0.3.2:
     resolution: {integrity: sha512-/GDnfQYsltsjRswQhN9fhv3EMw2sCpUdrdxyWDOUK7eyD++r3gRhzgiQgc/x4MAv2i1iuQ4lxO5mvqM3vj4bwA==}
