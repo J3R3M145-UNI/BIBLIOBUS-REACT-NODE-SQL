@@ -8,6 +8,7 @@ function RegisterPage() {
     const { register, handleSubmit, formState: {
         errors
     } } = useForm();
+    
     const { signup, isAuthenticated, errors: registerErrors } = UseAuth()
     const navigate = useNavigate()
 
