@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { registerRequest, loginRequest } from '../../api/auth';
-import Cookies from 'js-cookie';
+import { registerRequest, loginRequest, verifyTokenRequest } from '../api/auth';
+import Cookies from 'js-cookie'
 
 export const AuthContext = createContext();
 
@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => { // This is the component that wi
     const [user, setUser] = useState(null)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [errors, setErrors] = useState([[]])
+    const [loading, setLoading] = useState(true)
 
     const signup = async (user) => {
 
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }) => { // This is the component that wi
 
     useEffect(() => {
         if (errors.length > 0) {
-            const timer = setTimeout(() => { // This will clear the errors after 5 seconds
+            const timer = setTimeout(() => { // This will clear the errors after 4 seconds
                 setErrors([])
             }, 4000)
             return () => clearTimeout(timer)
@@ -53,10 +54,37 @@ export const AuthProvider = ({ children }) => { // This is the component that wi
     }, [errors])
 
     useEffect(() => {
-        const cookie = Cookies.get()
-        if (cookie) {
-            console.log(cookie)
+        async function checkLogin() {
+
+            const cookies = Cookies.get()
+
+            if (!cookies.token) {
+                setIsAuthenticated(false)
+                setLoading(false)
+                return setUser(null)
+            }
+
+            try {
+                const res = await verifyTokenRequest(cookies.token)
+                if (!res.data) {
+                    setIsAuthenticated(false)
+                    setLoading(false)
+                    return;
+                }
+
+                setIsAuthenticated(true)
+                setUser(res.data)
+                setLoading(false)
+
+            } catch (error) {
+
+                setIsAuthenticated(false)
+                setUser(null)
+                setLoading(false)
+            }
         }
+
+        checkLogin()
     }, [])
 
     return (
@@ -65,7 +93,8 @@ export const AuthProvider = ({ children }) => { // This is the component that wi
             signup,
             signin,
             isAuthenticated,
-            errors
+            errors,
+            loading,
         }}>
 
             {children}

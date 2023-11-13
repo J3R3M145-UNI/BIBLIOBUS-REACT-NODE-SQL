@@ -1,6 +1,8 @@
 import { getConnection, queries, sql } from '../database';
 import bcrypt from 'bcryptjs';
 import { createAccessToken } from '../libs/jwt.js';
+import { verify } from 'jsonwebtoken';
+
 
 export const register = async (req, res) => {
     const { username, email, password, nombre, apellido, tipo_usuario } = req.body
@@ -39,7 +41,7 @@ export const register = async (req, res) => {
 
             query(queries.regUsuario); //Se ejecuta la consulta
 
-        const token = await createAccessToken({ id: newUser.username})//Se crea el token
+        const token = await createAccessToken({ id: newUser.username })//Se crea el token
 
         //Crear token
         res.cookie('token', token)
@@ -76,11 +78,7 @@ export const login = async (req, res) => {
         const token = await createAccessToken({ id: userfound.recordset[0].username })//Se crea el token
 
         //Crear token
-        res.cookie('token', token, {
-            sameSite: 'none',
-            secure: true,
-            httpOnly: true,
-        }) //Se crea la cookie
+        res.cookie('token', token); //Se crea la cookie
         res.json({
             message: "Bienvenido",
             userfound: userfound.recordset[0]
@@ -121,4 +119,27 @@ export const profile = async (req, res) => {
         res.status(500)
         res.send(error.message)
     }
+}
+
+export const verifyToken = async (req, res) => {
+    const { token } = req.cookies
+    const { TOKEN_SECRET } = process.env
+    
+    if (!token) return res.status(401).json({ message: "no autorizado" })
+    verify(token, TOKEN_SECRET, async (err, user) => {
+        if (err) return res.status(401).json({ message: "no autorizado" })
+
+        const pool = await getConnection() //Se conecta a la base de datos
+        const userfound = await pool.request(). //Se hace la consulta
+
+            input('username', sql.VarChar, user.id).
+
+            query(queries.profile) //Se ejecuta la consulta
+
+        if (!userfound.recordset[0]) return res.status(400).json({ message: "Usuario no encontrado" }) //Si no encuentra el usuario
+
+        return res.json({
+            userfound: userfound.recordset[0]
+        })
+    })
 }

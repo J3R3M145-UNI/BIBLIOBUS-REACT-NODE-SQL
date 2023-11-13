@@ -13,6 +13,7 @@ app.set('port', config.port)
 //MIDDLEWARES
 app.use(cors({
     origin: 'http://localhost:5173', // <-- location of the react app were connecting to
+    credentials: true
 }));
 app.use(morgan('dev')) //Muestra por consola las peticiones que se hacen al servidor
 app.use(express.json()) //Permite que el servidor entienda los formatos json
