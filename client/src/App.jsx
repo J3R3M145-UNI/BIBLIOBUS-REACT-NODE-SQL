@@ -9,6 +9,7 @@ import ProfilePage from './pages/ProfilePage';
 import HomePage from './pages/HomePage';
 import ProtectedRoute from './ProtectedRoute'
 import { TaskProvider } from './context/TaskContext';
+import Navbar_rb from './components/Navbar';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <AuthProvider>
       <TaskProvider>
         <Router>
+          <Navbar_rb />
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />

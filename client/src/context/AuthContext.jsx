@@ -44,6 +44,12 @@ export const AuthProvider = ({ children }) => { // This is the component that wi
         }
     }
 
+    const logout = () => {
+        Cookies.remove('token')
+        setUser(null)
+        setIsAuthenticated(false)
+    }
+
     useEffect(() => {
         if (errors.length > 0) {
             const timer = setTimeout(() => { // This will clear the errors after 4 seconds
@@ -95,6 +101,7 @@ export const AuthProvider = ({ children }) => { // This is the component that wi
             isAuthenticated,
             errors,
             loading,
+            logout,
         }}>
 
             {children}

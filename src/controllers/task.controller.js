@@ -30,6 +30,22 @@ export const getItemsFromTable = async (req, res) => {
     }
 };
 
+export const getPrestamoItems = async (req, res) => {
+    try {
+        const pool = await getConnection();
+
+        // Construir la consulta SQL dinámicamente
+        const query = queries.getPrestamoItems;
+
+        const result = await pool.request().query(query);
+
+        res.json(result.recordset);
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
 export const getItemsFromTableByID = async (req, res) => {
     const tableName = req.params.tableName;
     const { id } = req.params
