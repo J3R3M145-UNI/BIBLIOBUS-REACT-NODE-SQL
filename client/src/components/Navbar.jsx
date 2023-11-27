@@ -18,13 +18,17 @@ function Navbar() {
                     {isAuthenticated ? (
                         <>
                             <Container className="d-flex justify-content-end">
-                            <Navbar_rb.Text>
-                                Sesion: {user.userfound.nombre}
-                            </Navbar_rb.Text>
-                            <Nav.Link as={Link} to="/add-task">
-                                Add Task
-                            </Nav.Link>
-                           
+                                <Navbar_rb.Text>
+                                    Sesion: {user.userfound.nombre}
+                                </Navbar_rb.Text>
+                                <Nav.Link as={Link} to="/prestamos">
+                                    Prestamo
+                                </Nav.Link>
+
+                                <Nav.Link as={Link} to="/libros">
+                                    Libros
+                                </Nav.Link>
+
                                 <Button variant="outline-light" size="sm" className='align-center' onClick={logout} to="/">Logout</Button>{' '}
                             </Container>
                         </>

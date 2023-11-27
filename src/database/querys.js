@@ -1,18 +1,20 @@
 
 export const queries = {
     //PRESTAMOS CRUD
-    getPrestamoItems: 'SELECT TOP (1000) [ID_PRESTAMO],[DEVOLUCION],[FECHA_EMISION],[VENCE],[NOMBRE],[APELLIDO],[ID_LIBROS],[TITULO],[AUTOR]FROM [BIBLIOBUSV2].[dbo].[vistaCargarTablaPrestamoTmp]',
+    getPrestamoItems: 'SELECT * FROM [BIBLIOBUSV2].[dbo].[vistaCargarTablaPrestamo]',
+
+    //PRESTAMOS CRUD DEPRECATED
     postPrestamoItems: 'INSERT INTO PRESTAMO (FCHA_EMISION, VENCE, ID_LIBRO, ID_LECTOR, DEVOLUCION) VALUES (@FCHA_EMISION, @VENCE, @ID_LIBRO, @ID_LECTOR, @DEVOLUCION)',
     getPrestamoItemsByID: 'SELECT * FROM PRESTAMO WHERE ID_PRESTAMO = @id',
     deletePrestamoItem: 'DELETE FROM PRESTAMO WHERE ID_PRESTAMO = @id',
     updatePrestamoByID: 'UPDATE PRESTAMO SET FCHA_EMISION = @FCHA_EMISION, VENCE = @VENCE, ID_LIBRO = @ID_LIBRO, ID_LECTOR = @ID_LECTOR, DEVOLUCION = @DEVOLUCION WHERE ID_PRESTAMO = @ID_PRESTAMO',
 
     //CREAR USUARIO
-    regUsuario: 'INSERT INTO USUARIOS (username, email, password, nombre, apellido, tipo_usuario) VALUES (@username, @email, @password, @nombre, @apellido, @tipo_usuario)',
+    regUsuario: 'INSERT INTO USUARIO (username, email, password, nombre, apellido, tipo_usuario) VALUES (@username, @email, @password, @nombre, @apellido, @tipo_usuario)',
     //LOGIN
-    login: 'SELECT * FROM USUARIOS WHERE username = @username',
+    login: 'SELECT * FROM USUARIO WHERE username = @username',
     //mostrarperfil
-    profile: 'SELECT * FROM USUARIOS WHERE username = @username',
+    profile: 'SELECT * FROM USUARIO WHERE username = @username',
 
     //get-querys
     getItemsFromTable: (tableName) => {

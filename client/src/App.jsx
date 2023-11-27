@@ -4,7 +4,8 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TaskPage from './pages/TaskPage';
-import TaskFormPage from './pages/TaskFormPage';
+import PrestamoFormPage from './pages/PrestamoFormPage';
+import LibroFormPage from './pages/LibroFormPage';
 import ProfilePage from './pages/ProfilePage';
 import HomePage from './pages/HomePage';
 import ProtectedRoute from './ProtectedRoute'
@@ -25,8 +26,8 @@ function App() {
 
             <Route element={<ProtectedRoute />} >
               <Route path='/tasks' element={<TaskPage />} />
-              <Route path='/add-task' element={<TaskFormPage />} />
-              <Route path='/tasks/:id' element={<TaskFormPage />} />
+              <Route path='/prestamos' element={<PrestamoFormPage />} />
+              <Route path='/libros' element={<LibroFormPage />} />
               <Route path='/profile' element={<ProfilePage />} />
             </Route>
 
