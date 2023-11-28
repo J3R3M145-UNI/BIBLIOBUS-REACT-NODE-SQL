@@ -54,7 +54,7 @@ function LoginPage() {
           </div>
         </form>
         <p className='text-center'>Aun no estas registrado?
-          <Link to='/register'>Sign up</Link>
+          <Link to='/register'>Registrarse</Link>
         </p>
       </div>
     </>
